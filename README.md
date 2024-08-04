@@ -1,3 +1,4 @@
 # My-Project
-Following are the files for the project made in Hackathon "code carnival"
+This are simply the code files I commit while learning. 
+May not be 100% accurate.
 Author - Pruthvirajsinh Zala

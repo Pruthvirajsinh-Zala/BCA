@@ -1,0 +1,179 @@
+#include<stdio.h>
+#include<conio.h>
+typedef struct xyz node;
+struct xyz
+{
+	int data;
+	node *next;
+};
+node *temp;
+node *last=NULL;
+node *ins;
+node *erase;
+
+void add()
+{
+	temp=(node*)malloc(sizeof(node));
+	printf("\nEnter Value : ");
+	scanf("%d",&temp->data);
+	temp->next=NULL;
+	if(last==NULL)
+	{
+		temp->next=temp;
+	}
+	else
+	{
+		temp->next=last->next;
+		last->next=temp;
+	}
+	last=temp;
+	printf("\nValue Insterted Successfully...!!");
+	count++;
+}
+
+void disp()
+{
+	if(last==NULL)
+	{
+		printf("\nRecord Not Found...!!");
+	}
+	else
+	{
+		int i=0;
+		temp=first;
+		do
+		{
+			temp=temp->next;
+			printf("\n(%d) : %d",++i,temp->data);
+		}while(temp!=last);
+	}
+}
+
+
+void delv()
+{
+	
+}
+
+void delp()
+{
+	
+}
+
+void updt()
+{
+	
+}
+void srch()
+{
+	int sv,flag=0,i=0;
+	if(last==NULL)
+	{
+		printf("\n\n\tRecord Not Found...!");
+	}
+	else
+	{
+		disp();
+		printf("\n\n\tEnter Value for Update : ");
+		scanf("%d",&sv);
+		do 
+		{
+			temp=temp->next;
+			if(temp->data==sv)
+			{
+				flag=1;
+			}
+			
+		}while(temp!=last)
+		if(flag==0)
+		{
+			printf("\n\n\tValue %d not found in the Record ...!",sv);
+		}
+		else
+		{
+			printf("\n\n\tValue Found..!");
+		}
+	}
+}
+
+void sort()
+{
+	
+}
+void insrt()
+{
+	
+}
+
+void main()
+{
+	int ch;
+	while(1)
+	{
+		clrscr();
+		printf("1)Add Data");
+		printf("\n2)Display Data");
+		printf("\n3)Delete Data");
+		printf("\n4)Update Data");
+		printf("\n5)Count Data");
+		printf("\n6)Search Data");
+		printf("\n7)Sort Data");
+		printf("\n8)Exit");
+
+		printf("\n\nEnter Your Choise : ");
+		scanf("%d",&ch);
+
+		switch(ch)
+		{
+			case 1:
+				add();
+				break;
+			case 2:
+				disp();
+				break;
+			case 3:
+					if(first==NULL)
+					{
+						printf("\nRecord Not Found...!!");
+					}
+					else
+					{
+						int s;
+						printf("(1) Delete By Value...");
+						printf("\n(2) Delete By Position...");
+						printf("\n\nEnter Your Choice : ");
+						scanf("%d",&s);
+						switch(s)
+						{
+							case 1:
+								delv();
+								break;
+							case 2:
+								delp();
+								break;
+							default:
+								printf("\nEnter Between 1 And 2...!!");
+						}
+					}
+				break;
+			case 4:
+				updt();
+				break;
+			case 5:
+				printf("\nTotal Data %d ",count);
+				break;
+			case 6:
+				srch();
+				break;
+			//case 7:
+			//	sort();
+			//	break;
+			case 8:
+				exit();
+				break;
+			default:
+				printf("\nInvalid Choice");
+		}
+		getch();
+	}
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Assistant</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f4f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .chatbox {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Chat Messages */
+        .messages {
+            flex: 1;
+            padding: 20px;
+            background-color: #f9fafb;
+            overflow-y: auto;
+        }
+
+        .messages div {
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 75%;
+        }
+
+        .messages div:nth-child(odd) {
+            background-color: #d1e7ff;
+            color: #0a3d62;
+            align-self: flex-start;
+        }
+
+        .messages div:nth-child(even) {
+            background-color: #e2e2e2;
+            color: #333;
+            align-self: flex-end;
+        }
+
+        /* Input Group */
+        .input-group {
+            display: flex;
+            padding: 15px;
+            background-color: #ffffff;
+            border-top: 1px solid #ddd;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #007bff;
+        }
+
+        .input-group button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbox">
+        <div class="messages" id="messages"></div>
+        <div class="input-group">
+            <input type="text" id="userInput" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <script>
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput').value;
+            if (!userInput) return;
+
+            // Append user message to chat
+            const messages = document.getElementById('messages');
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.textContent = userInput;
+            messages.appendChild(userMessageDiv);
+
+            // Send to backend
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: userInput })
+            });
+
+            const data = await response.json();
+            const botResponse = data.response || "Error";
+
+            // Append bot response to chat
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.textContent = botResponse;
+            messages.appendChild(botMessageDiv);
+
+            // Scroll to bottom
+            messages.scrollTop = messages.scrollHeight;
+
+            // Clear input
+            document.getElementById('userInput').value = '';
+        }
+    </script>
+</body>
+</html>
